@@ -1,2 +1,2 @@
-# challenge
-Different challenge in javascript
+# Quiz application
+This is a quiz application
