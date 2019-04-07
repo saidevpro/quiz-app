@@ -4,9 +4,13 @@
   "main": "index.js",
   "author": "saidev",
   "license": "MIT",
+  "scripts": {
+    "server": "./node_modules/.bin/nodemon server.js"
+  },
   "devDependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "mysql": "^2.16.0"
+    "mysql": "^2.16.0",
+    "nodemon": "^1.18.10"
   }
 }
