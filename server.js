@@ -3,7 +3,7 @@ var bodyParser  = require('body-parser');
 var indexRoute  = require('./routes/index');
 var apiRoute    = require('./routes/api'); 
 var mongoose    = require('mongoose'); 
-var config      = require('./config.json'); 
+var config      = require('./config.server.json'); 
 
 // Mongodb connection
 mongoose.connect(config.mongo_uri, {useNewUrlParser: true}); 
@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // Create routes
 app.use('/', indexRoute); 
-app.use('/api', apiRoute); 
+app.use('/api', [apiRoute]); 
  
 // 404's route manager
 app.use((req, res, next) => {

@@ -1,16 +1,13 @@
 // API ROUTES
 var express = require('express'); 
-var Quiz    = require('../models/quiz'); 
-var assert  = require('assert'); 
+var Quiz    = require('../../models/quiz'); 
 var _       = require('lodash'); 
-var RequestValidator = require('../utils/request-validator');
+var RequestValidator = require('../../utils/request-validator');
 
-//  
-const AssertionError = assert.AssertionError; 
-var router  = express.Router();
+var Router  = express.Router();
 
 // Middleware check data
-router.use(/^\/quiz\/?(.*)\/?(?=\/|$)/i, (req, res, next) => {
+Router.use(/^\/quiz\/?(.*)\/?(?=\/|$)/i, (req, res, next) => {
     if (req.method === 'POST' || req.method === 'PUT') {  
         RequestValidator
             .createAndUpdateQuiz(req)
@@ -18,7 +15,6 @@ router.use(/^\/quiz\/?(.*)\/?(?=\/|$)/i, (req, res, next) => {
             .catch((error) => {
                 next(error); 
             }); 
-        
         return ; 
     } 
     next(); 
@@ -26,7 +22,7 @@ router.use(/^\/quiz\/?(.*)\/?(?=\/|$)/i, (req, res, next) => {
 
 
 // Create Ressource 
-router.post('/quiz', (req, res, next) => {
+Router.post('/quiz', (req, res, next) => {
 
     const newQuiz = new Quiz ({
         question: req.body.question,
@@ -51,7 +47,7 @@ router.post('/quiz', (req, res, next) => {
 }); 
 
 // Get all the quizzes
-router.get('/quiz', (req, res, next) => {
+Router.get('/quiz', (req, res, next) => {
     Quiz.find({}, (error, quizzes) => {
         if (error) {
             return res.status(500).send({
@@ -72,7 +68,7 @@ router.get('/quiz', (req, res, next) => {
 });
 
 //  Get a particular quiz
-router.get('/quiz/:id', (req, res) => {
+Router.get('/quiz/:id', (req, res) => {
 
     Quiz.findById(req.params.id,  (error, quiz) => {
         // If Error from database request
@@ -97,7 +93,7 @@ router.get('/quiz/:id', (req, res) => {
 });
 
 // Update a quiz
-router.put('/quiz/:id', (req, res) => {
+Router.put('/quiz/:id', (req, res) => {
     Quiz.findOneAndUpdate(req.params.id, {
         question: req.body.question,
         category: [...req.body.categories],
@@ -121,7 +117,7 @@ router.put('/quiz/:id', (req, res) => {
 }); 
 
 // Error on the request
-router.use((err, req, res, next) => {
+Router.use((err, req, res, next) => {
     res.status(403).send({
         error: true,
         message: err.message,
@@ -130,4 +126,4 @@ router.use((err, req, res, next) => {
  
 
 
-module.exports = router; 
+module.exports = Router; 
