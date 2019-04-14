@@ -5,13 +5,18 @@
   "author": "saidev",
   "license": "MIT",
   "scripts": {
-    "server": "./node_modules/.bin/nodemon server.js"
+    "server": "./node_modules/.bin/nodemon server.js",
+    "webpack": "./node_modules/.bin/webpack"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "babel-loader": "^8.0.5",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "mysql": "^2.16.0",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.0"
   },
   "dependencies": {
     "assert": "^1.4.1",

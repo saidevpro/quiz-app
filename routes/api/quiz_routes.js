@@ -22,7 +22,7 @@ Router.use(/^\/quiz\/?(.*)\/?(?=\/|$)/i, (req, res, next) => {
 
 
 // Create Ressource 
-Router.post('/quiz', (req, res, next) => {
+Router.post('/quizzes', (req, res, next) => {
 
     const newQuiz = new Quiz ({
         question: req.body.question,
