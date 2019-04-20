@@ -1,10 +1,19 @@
 .button {
-    outline: none;
-    border-radius: 3px;
-    padding: 0.5rem 0.7rem;
+  outline: none;
+  border-radius: 4px;
+  border: 0;
+  padding: 0.4rem 0.8rem;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
 }
 
 .button-primary {
-    background-color: red;
-    color: #ffffff;
+  background-color: #053344;
+  color: #ffffff;
+}
+
+.button-danger {
+  background-color: #9e0606;
+  color: #ffffff;
 }

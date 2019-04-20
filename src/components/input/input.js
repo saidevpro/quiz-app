@@ -1,15 +1,18 @@
 import React from 'react';
-import './button.scss';
 import PropTypes from 'prop-types';
+import './input.scss';
 
-const Button = props => <button {...props}>{props.children}</button>;
+const Input = props => {
+  return <input {...props} />;
+};
 
-Button.propTypes = {
+Input.propTypes = {
   className: PropTypes.string,
   name: PropTypes.string,
   style: PropTypes.object,
   onClick: PropTypes.func,
+  onChange: PropTypes.func,
   type: PropTypes.string
 };
 
-export default Button;
+export default Input;
