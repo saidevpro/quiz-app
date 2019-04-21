@@ -5,10 +5,11 @@
   "author": "saidev",
   "license": "MIT",
   "scripts": {
-    "server": "./node_modules/.bin/nodemon server.js",
+    "nodemon:server": "./node_modules/.bin/nodemon server.js",
     "webpack": "./node_modules/.bin/webpack",
-    "eslint": "./node_modules/.bin/eslint --init",
-    "webpack-server": "./node_modules/.bin/webpack -w"
+    "webpack:watch": "./node_modules/.bin/webpack -w",
+    "webpack:server": "./node_modules/.bin/webpack-dev-server",
+    "lint": "./node_modules/.bin/eslint --init"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -18,25 +19,31 @@
     "body-parser": "^1.18.3",
     "css-loader": "^2.1.1",
     "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "express": "^4.16.4",
     "file-loader": "^3.0.1",
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10",
-    "prop-types": "^15.7.2",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.0"
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.3.1"
   },
   "dependencies": {
     "assert": "^1.4.1",
+    "eslint-plugin-import": "^2.17.2",
     "mongodb": "^3.2.3",
     "mongoose": "^5.5.0",
+    "prettier": "^1.17.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "styled-components": "^4.2.0",
     "validatorjs": "^3.15.1"
   }
 }

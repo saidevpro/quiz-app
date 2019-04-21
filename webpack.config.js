@@ -38,5 +38,11 @@ module.exports = {
   resolve: {
     modules: ['node_modules'],
     extensions: ['.js', '.json', '.jsx', '.css', '.scss']
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'public'),
+    publicPath: '/assets/',
+    port: 8000,
+    hot: true
   }
 };

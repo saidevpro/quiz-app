@@ -1,3 +1,3 @@
 import React from 'react';
 
-export default props => <div style={{ marginBottom: `${props.margin}px` }}>{props.children}</div>;
+export default ({ margin, children }) => <div style={{ marginTop: `${margin}px` }}>{children}</div>;
