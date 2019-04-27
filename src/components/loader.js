@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Loader = styled.div`
+const StyledLoader = styled.div`
   display: inline-block;
   position: relative;
   width: 64px;
@@ -38,11 +38,13 @@ const Loader = styled.div`
   }
 `;
 
-export default props => (
-  <Loader {...props}>
+const Loader = props => (
+  <StyledLoader {...props}>
     <div />
     <div />
     <div />
     <div />
-  </Loader>
+  </StyledLoader>
 );
+
+export default Loader;

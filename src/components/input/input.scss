@@ -17,56 +17,55 @@ textarea {
   border: 1px solid #aaaaaa;
   border-radius: 3px;
   &:focus {
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 1px 3px rgba(#053344, 0.3);
+    border-color: #053344;
   }
 }
 
 .input-checkbox {
+  $input-checkbox-size: 18px;
+
   position: relative;
   display: inline-block;
   vertical-align: middle;
-  width: 18px;
-  height: 18px;
+  width: $input-checkbox-size;
+  height: $input-checkbox-size;
   margin-top: 0;
   margin-right: 8px;
-  &::after {
-    content: '';
-    display: block;
+  &::after,
+  &::before {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 1;
+    cursor: pointer;
+    border-radius: 2px;
+    line-height: $input-checkbox-size;
+  }
+
+  &::after {
+    content: '';
+    display: block;
     border: 2px solid #7b7b7b;
     border-radius: 2px;
     background-color: #fff;
-    border-radius: 2px;
-    cursor: pointer;
   }
   &::before {
-    content: '';
-    position: absolute;
-    top: 3px;
-    bottom: 0;
-    left: 3px;
-    right: 0;
-    z-index: 2;
-    width: 10px;
-    height: 5px;
-    visibility: hidden;
-    transform: rotate(-55deg);
-    border-radius: 2px;
-    border-bottom: 2px solid #ffffff;
-    border-left: 2px solid #ffffff;
+    content: '✔';
+    display: none;
+    background-color: #0a63a9;
+    color: #fff;
+    text-align: center;
+    font-size: 0.9rem;
   }
   &:checked {
     &::after {
-      background-color: #0a63a9;
-      border-color: #0a63a9;
+      display: none;
     }
     &::before {
-      visibility: visible;
+      display: block;
     }
   }
 }

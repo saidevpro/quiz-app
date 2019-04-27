@@ -1,3 +1,5 @@
 import React from 'react';
 
-export default ({ margin, children }) => <div style={{ marginTop: `${margin}px` }}>{children}</div>;
+const FormGroup = ({ margin, children }) => <div style={{ marginTop: `${margin}px` }}>{children}</div>;
+
+export default FormGroup;

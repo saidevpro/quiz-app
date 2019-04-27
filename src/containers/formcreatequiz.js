@@ -1,12 +1,12 @@
 import React from 'react';
+import _ from 'lodash';
 import styled from 'styled-components';
 import Button from '../components/button';
 import Input from '../components/input/input';
 import Textarea from '../components/input/textarea';
 import Label from '../components/label';
 import FormGroup from '../components/formgroup';
-import PopUpOver from '../components/popupover';
-import Loader from '../components/loader';
+import { MIN_RESPONSE } from '../constants/app.config';
 
 const LinkRemove = styled.button`
   text-decoration: underline;
@@ -18,52 +18,123 @@ const LinkRemove = styled.button`
   cursor: pointer;
 `;
 
-const ParagraphLoader = styled.p`
-  font-weight: 300;
-  color: #616161;
-  font-size: 1.1rem;
-`;
+function createRandomIndex() {
+  return (
+    Math.random()
+      .toString(36)
+      .substring(2, 15) +
+    Math.random()
+      .toString(36)
+      .substring(2, 15)
+  );
+}
 
 class FormCreateQuiz extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      indexResponse: 1,
-      responses: [1]
+      responses: _.fill(Array(MIN_RESPONSE), 1).map(_v => createRandomIndex()),
+      inputs: {}
     };
 
     this.addResponse = this.addResponse.bind(this);
     this.removeResponse = this.removeResponse.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleInputEmbedChange = this.handleInputEmbedChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   addResponse() {
     this.setState(state => ({
-      indexResponse: state.indexResponse + 1,
-      responses: state.responses.concat(state.indexResponse + 1)
+      responses: state.responses.concat(createRandomIndex())
     }));
   }
 
   removeResponse(event) {
     event.preventDefault();
-    const index = event.target.getAttribute('data-id');
+    const index = event.target.dataset.id;
+    const { name } = event.target;
+
+    this.setState(state => {
+      if (state.inputs[name]) {
+        const elements = state.inputs[name];
+        _.unset(elements, `response_${index}`);
+
+        return {
+          responses: state.responses.filter(value => value !== index),
+          inputs: {
+            ...state.inputs,
+            [name]: {
+              ...elements
+            }
+          }
+        };
+      }
+      return {
+        responses: state.responses.filter(value => value !== index)
+      };
+    });
+  }
+
+  handleInputChange(event) {
+    const input = event.target;
 
     this.setState(state => ({
-      responses: state.responses.filter(value => value !== parseInt(index, 10))
+      inputs: {
+        ...state.inputs,
+        [input.name]: input.value
+      }
     }));
+  }
+
+  handleInputEmbedChange(event) {
+    const { inputs } = this.state;
+    const { type, name, value, checked } = event.target;
+    const dataId = event.target.dataset.id;
+
+    if (type === 'checkbox' && !checked && inputs[name]) {
+      this.setState(state => {
+        const elements = state.inputs[name];
+        _.unset(elements, dataId);
+
+        return {
+          inputs: {
+            ...state.inputs,
+            [name]: {
+              ...elements
+            }
+          }
+        };
+      });
+
+      return;
+    }
+
+    this.setState(state => ({
+      inputs: {
+        ...state.inputs,
+        [name]: {
+          ...state.inputs[name],
+          [dataId]: value
+        }
+      }
+    }));
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    const { inputs } = this.state;
+    const { onSubmit } = this.props;
+
+    onSubmit(inputs);
   }
 
   render() {
     const { responses } = this.state;
-
     return (
-      <form action="">
-        <PopUpOver>
-          <div style={{ textAlign: 'center', maxWidth: '400px' }}>
-            <Loader />
-            <ParagraphLoader>Please wait for a moment.</ParagraphLoader>
-          </div>
-        </PopUpOver>
+      <form action="" ref={this.form}>
         <FormGroup>
           <Label
             style={{
@@ -73,40 +144,72 @@ class FormCreateQuiz extends React.Component {
             Categories
           </Label>
           <Label className="label-checkbox">
-            <Input type="checkbox" className="input-checkbox" />
+            <Input
+              type="checkbox"
+              className="input-checkbox"
+              name="categories"
+              onChange={this.handleInputEmbedChange}
+              dataId="category1"
+              value="html"
+            />
             HTML
           </Label>
           <Label className="label-checkbox">
-            <Input type="checkbox" className="input-checkbox" />
+            <Input
+              type="checkbox"
+              className="input-checkbox"
+              name="categories"
+              onChange={this.handleInputEmbedChange}
+              dataId="category2"
+              value="php"
+            />
             PHP
           </Label>
           <Label className="label-checkbox">
-            <Input type="checkbox" className="input-checkbox" />
+            <Input
+              type="checkbox"
+              className="input-checkbox"
+              name="categories"
+              onChange={this.handleInputEmbedChange}
+              dataId="category3"
+              value="css"
+            />
             CSS
           </Label>
           <Label className="label-checkbox">
-            <Input type="checkbox" className="input-checkbox" />
+            <Input
+              type="checkbox"
+              className="input-checkbox"
+              name="categories"
+              onChange={this.handleInputEmbedChange}
+              dataId="category4"
+              value="javascript"
+            />
             JAVASCRIPT
           </Label>
         </FormGroup>
         <FormGroup margin="20">
           <Label>Question ?</Label>
           <Textarea
+            name="question"
             style={{
               width: '100%'
             }}
             placeholder="e.g. What this code does ?"
             rows="3"
+            onChange={this.handleInputChange}
           />
         </FormGroup>
         <FormGroup margin="20">
           <Label>Description</Label>
           <Textarea
+            name="description"
             style={{
               width: '100%'
             }}
             placeholder="e.g. the code does for the first"
             rows="4"
+            onChange={this.handleInputChange}
           />
         </FormGroup>
         <FormGroup margin="20">
@@ -121,15 +224,20 @@ class FormCreateQuiz extends React.Component {
             >
               <Input
                 type="text"
+                name="responses"
                 className="input-text"
                 placeholder="e.g. the function will return"
                 style={{
                   width: '100%'
                 }}
+                onChange={this.handleInputEmbedChange}
+                dataId={`response_${value}`}
               />
-              <LinkRemove onClick={this.removeResponse} data-id={value}>
-                Remove
-              </LinkRemove>
+              {responses.length > MIN_RESPONSE && (
+                <LinkRemove onClick={this.removeResponse} data-id={value} name="responses">
+                  remove
+                </LinkRemove>
+              )}
             </div>
           ))}
         </FormGroup>
@@ -143,7 +251,9 @@ class FormCreateQuiz extends React.Component {
             <Button type="button" className="button button-danger" onClick={this.addResponse}>
               +1 Response
             </Button>
-            <Button className="button button-primary">Create the quiz</Button>
+            <Button className="button button-primary" onClick={this.handleSubmit}>
+              Create the quiz
+            </Button>
           </div>
         </FormGroup>
       </form>

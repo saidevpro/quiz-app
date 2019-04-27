@@ -26,4 +26,6 @@ Container.propTypes = {
   xl: PropTypes.number
 };
 
+Container.displayName = 'Container';
+
 export default Container;
