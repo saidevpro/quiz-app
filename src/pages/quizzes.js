@@ -10,7 +10,7 @@ import CardCode from '../components/cardcode';
 import PencilIcon from '../images/edit.svg';
 
 const tabsStyle = {
-  marginTop: '5.1rem',
+  marginTop: '5.3rem',
   position: 'fixed',
   top: 0,
   left: 0,
@@ -23,7 +23,6 @@ const ParagraphResponse = styled.p`
   margin: 5px 0;
   padding: 3px 15px;
   background-color: rgba(0, 0, 0, 0.2);
-  /* padding-left: 100px; */
 `;
 
 const Response = ({ children }) => <ParagraphResponse>{children}</ParagraphResponse>;
@@ -60,44 +59,6 @@ class QuizzesPage extends React.Component {
           <Container xl={5} lg={7} md={10} xs={12}>
             <Switcher activeItem={active}>
               <div>
-                <div style={{ marginBottom: '80px' }}>
-                  <h2 style={{ color: '#053344' }}>What do this function will return ?</h2>
-                  <CardCode theme="primary">{'function add ($a, $b) { return $a+$b; }'}</CardCode>
-                  <Response>11</Response>
-                  <Response>10</Response>
-                  <Response>12</Response>
-                  <p>
-                    <a
-                      href="delete/quiz/122"
-                      className="button button-danger button-sm"
-                      style={{ float: 'right', marginLeft: '15px' }}
-                    >
-                      delete
-                    </a>
-                    <a href="update/quiz/122" className="button button-primary button-sm" style={{ float: 'right' }}>
-                      update
-                    </a>
-                  </p>
-                </div>
-                <div style={{ marginBottom: '80px' }}>
-                  <h2 style={{ color: '#053344' }}>What do this function will return ?</h2>
-                  <CardCode theme="primary">{'function add ($a, $b) { return $a+$b; }'}</CardCode>
-                  <Response>11</Response>
-                  <Response>10</Response>
-                  <Response>12</Response>
-                  <p>
-                    <a
-                      href="delete/quiz/122"
-                      className="button button-danger button-sm"
-                      style={{ float: 'right', marginLeft: '15px' }}
-                    >
-                      delete
-                    </a>
-                    <a href="update/quiz/122" className="button button-primary button-sm" style={{ float: 'right' }}>
-                      update
-                    </a>
-                  </p>
-                </div>
                 <div style={{ marginBottom: '80px' }}>
                   <h2 style={{ color: '#053344' }}>What do this function will return ?</h2>
                   <CardCode theme="primary">{'function add ($a, $b) { return $a+$b; }'}</CardCode>

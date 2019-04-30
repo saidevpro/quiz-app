@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 
 const StyledTab = styled.div`
   padding: 0.6em 0;
+  margin-bottom: -1px;
   color: #6d6d6d;
+  font-size: 0.9rem;
   flex-grow: 1;
   text-align: center;
   cursor: pointer;
