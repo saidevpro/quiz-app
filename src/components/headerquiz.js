@@ -19,13 +19,13 @@ const LogoComponent = styled.div`
   display: block;
   text-align: center;
   & img {
-    width: 10em;
+    height: 4rem;
     display: inline-block;
   }
 `;
 
-const Header = props => (
-  <HeaderComponent>
+const Header = ({ style }) => (
+  <HeaderComponent style={style}>
     <LogoComponent>
       <img src={Logo} alt="application logo" />
     </LogoComponent>

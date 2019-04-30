@@ -2,7 +2,7 @@ import React from 'react';
 import FormCreateQuiz from '../containers/formcreatequiz';
 import Header from '../components/headerquiz';
 import Container from '../components/container-responsive';
-import HeaderGapper from '../components/headergap';
+import Space from '../components/headergap';
 import Loader from '../components/loader';
 import Modal from '../components/popupover';
 
@@ -88,7 +88,7 @@ export default class CreateQuizPage extends React.Component {
     return (
       <React.Fragment>
         <Header />
-        <HeaderGapper />
+        <Space size={7} />
         <Modal isOpen={openModal} onClose={this.handleModalClose}>
           {ModalContent}
         </Modal>
