@@ -1,10 +1,10 @@
 import React from 'react';
 import FormCreateQuiz from '../containers/formcreatequiz';
-import Header from '../components/headerquiz';
+import Header from '../components/header';
 import Container from '../components/container-responsive';
-import Space from '../components/headergap';
+import Space from '../components/space';
 import Loader from '../components/loader';
-import Modal from '../components/popupover';
+import Modal from '../components/modal';
 
 export default class CreateQuizPage extends React.Component {
   constructor(props) {
@@ -51,9 +51,13 @@ export default class CreateQuizPage extends React.Component {
   }
 
   handleModalClose() {
-    this.setState({
-      openModal: false
-    });
+    const { fetching } = this.state;
+
+    if (!fetching) {
+      this.setState({
+        openModal: false
+      });
+    }
   }
 
   render() {

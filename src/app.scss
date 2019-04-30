@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700|Roboto:300,300i,400,500,700,700i,900');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700');
 
 * {
   box-sizing: border-box;
@@ -11,10 +11,46 @@ html {
 body {
   font-size: 1rem;
   font-family: 'Roboto Slab', Arial, Helvetica, sans-serif;
+  color: #053344;
 }
 
 body,
 ul {
   margin: 0;
   padding: 0;
+}
+
+p {
+  margin-top: 0;
+}
+
+button {
+  outline: none;
+}
+
+.button {
+  border-radius: 4px;
+  border: 0;
+  padding: 0.4rem 0.8rem;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'Roboto Slab', Arial, Helvetica, sans-serif;
+  font-size: 0.9rem;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+  text-decoration: none;
+}
+
+.button-primary {
+  background-color: #053344;
+  color: #ffffff;
+}
+
+.button-danger {
+  background-color: #9e0606;
+  color: #ffffff;
+}
+
+.button-sm {
+  padding: 0.2rem 0.8rem;
 }

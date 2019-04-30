@@ -1,8 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './label.scss';
+import styled from 'styled-components';
 
-const Label = props => <label {...props}>{props.children}</label>;
+const Label = styled.label`
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1rem;
+  &.label-checkbox {
+    cursor: pointer;
+  }
+`;
 
 Label.propTypes = {
   htmlFor: PropTypes.string,
@@ -10,5 +17,7 @@ Label.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object
 };
+
+Label.displayName = 'label';
 
 export default Label;

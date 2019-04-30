@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -16,7 +16,10 @@ const ModalStyle = styled.div`
 `;
 
 const ModalContentStyle = styled.div`
-  padding: 10px;
+  padding: 0.9rem;
+  max-width: 500px;
+  background-color: #ffffff;
+  border: 1px solid #aaaaaa;
 `;
 
 function Modal({ onClose, isOpen, children, ...otherProps }) {
@@ -37,7 +40,8 @@ Modal.defaultProps = {
 Modal.propTypes = {
   isClosable: PropTypes.bool,
   isOpen: PropTypes.bool,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  children: PropTypes.any
 };
 
 export default Modal;

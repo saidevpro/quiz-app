@@ -37,7 +37,8 @@ function Tabs({ children, onChange, defaultActive, style }) {
 Tabs.propTypes = {
   children: PropTypes.node.isRequired,
   onChange: PropTypes.func,
-  defaultActive: PropTypes.number
+  defaultActive: PropTypes.number,
+  style: PropTypes.object
 };
 
 export default Tabs;

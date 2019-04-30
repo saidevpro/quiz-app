@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Logo from '../images/logo.png';
 
 const HeaderComponent = styled.header`
@@ -31,5 +32,9 @@ const Header = ({ style }) => (
     </LogoComponent>
   </HeaderComponent>
 );
+
+Header.propTypes = {
+  style: PropTypes.object
+};
 
 export default Header;

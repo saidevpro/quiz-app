@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Button from '../components/button';
 import Input from '../components/input/input';
 import Textarea from '../components/input/textarea';
@@ -188,7 +189,7 @@ class FormCreateQuiz extends React.Component {
             JAVASCRIPT
           </Label>
         </FormGroup>
-        <FormGroup margin="20">
+        <FormGroup margin={20}>
           <Label>Question ?</Label>
           <Textarea
             name="question"
@@ -200,7 +201,7 @@ class FormCreateQuiz extends React.Component {
             onChange={this.handleInputChange}
           />
         </FormGroup>
-        <FormGroup margin="20">
+        <FormGroup margin={20}>
           <Label>Description</Label>
           <Textarea
             name="description"
@@ -212,7 +213,7 @@ class FormCreateQuiz extends React.Component {
             onChange={this.handleInputChange}
           />
         </FormGroup>
-        <FormGroup margin="20">
+        <FormGroup margin={20}>
           <Label>Response</Label>
           {responses.map(value => (
             <div
@@ -241,7 +242,7 @@ class FormCreateQuiz extends React.Component {
             </div>
           ))}
         </FormGroup>
-        <FormGroup margin="40">
+        <FormGroup margin={40}>
           <div
             style={{
               display: 'flex',
@@ -260,5 +261,9 @@ class FormCreateQuiz extends React.Component {
     );
   }
 }
+
+FormCreateQuiz.propTypes = {
+  onSubmit: PropTypes.func
+};
 
 export default FormCreateQuiz;
