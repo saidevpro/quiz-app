@@ -1,13 +1,11 @@
-var express = require('express'); 
+const express = require('express');
 
-var Router = express.Router(); 
-
+const Router = express.Router();
 
 Router.get('/categories', (req, res) => {
-    return res.send({
-        data: ['php','html','css','javascript']
-    }); 
-}); 
+  return res.send({
+    data: ['php', 'html', 'css', 'javascript']
+  });
+});
 
-
-module.exports = Router; 
+module.exports = Router;

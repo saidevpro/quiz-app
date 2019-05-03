@@ -9,14 +9,19 @@ import CardCode from '../components/cardcode';
 import Modal from '../components/modal';
 import Button from '../components/button';
 
-const tabsStyle = {
-  marginTop: '5.3rem',
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  zIndex: 99
-};
+const TabsFixed = styled(Tabs)`
+  margin-top: 5.3rem
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99
+`;
+
+const HeaderSimple = styled(Header)`
+  box-shadow: none;
+  border-bottom: 1px solid #aaaaaa;
+`;
 
 const Response = styled.p`
   position: relative;
@@ -76,32 +81,12 @@ class QuizzesPage extends React.Component {
 
     return (
       <>
-        {deleteId && (
-          <Modal isOpen={true} onClose={this.handleCloseModal}>
-            <div>
-              <p>Vous êtes sur le point de supprimer le quiz. Êtes-vous sûre de vouloir effectuer cette action ?</p>
-              <div style={{ textAlign: 'right' }}>
-                <Button
-                  className="button button-primary button-sm"
-                  type="button"
-                  style={{ marginRight: '15px' }}
-                  onClick={this.handleDeleteQuiz}
-                >
-                  Annuler
-                </Button>
-                <Button className="button button-danger button-sm" type="button" onClick={this.handleDeleteQuiz}>
-                  confirmer
-                </Button>
-              </div>
-            </div>
-          </Modal>
-        )}
-        <Header style={{ boxShadow: 'none', borderBottom: '1px solid #aaaaaa' }} />
-        <Tabs defaultActive={active} onChange={this.handleTabsChange} style={tabsStyle}>
+        <HeaderSimple />
+        <TabsFixed defaultActive={active} onChange={this.handleTabsChange}>
           {languages.map(lang => (
             <Tab key={lang}>{lang}</Tab>
           ))}
-        </Tabs>
+        </TabsFixed>
         <Space size={8} />
         <main style={{ paddingTop: '20px' }}>
           <Container xl={6} lg={7} md={10} xs={12}>
@@ -109,9 +94,9 @@ class QuizzesPage extends React.Component {
               <article>
                 <h3>What do this function will return ?</h3>
                 <CardCode theme="primary">{'function add ($a, $b) { return $a+$b; }'}</CardCode>
-                <Response>11</Response>
-                <Response>10</Response>
-                <Response>12</Response>
+                <Response>&rsaquo;&nbsp;&nbsp;11</Response>
+                <Response>&rsaquo;&nbsp;&nbsp;10</Response>
+                <Response>&rsaquo;&nbsp;&nbsp;12</Response>
                 <p>
                   <a
                     href="delete/quiz/122"
@@ -129,6 +114,26 @@ class QuizzesPage extends React.Component {
               </article>
             </section>
           </Container>
+          {deleteId && (
+            <Modal isOpen={true} onClose={this.handleCloseModal}>
+              <div>
+                <p>Vous êtes sur le point de supprimer le quiz. Êtes-vous sûre de vouloir effectuer cette action ?</p>
+                <div style={{ textAlign: 'right' }}>
+                  <Button
+                    className="button button-primary button-sm"
+                    type="button"
+                    style={{ marginRight: '15px' }}
+                    onClick={this.handleDeleteQuiz}
+                  >
+                    Annuler
+                  </Button>
+                  <Button className="button button-danger button-sm" type="button" onClick={this.handleDeleteQuiz}>
+                    confirmer
+                  </Button>
+                </div>
+              </div>
+            </Modal>
+          )}
         </main>
       </>
     );

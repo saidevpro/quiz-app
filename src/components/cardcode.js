@@ -7,6 +7,7 @@ const CardCode = styled.pre`
   padding: 0.7rem 1.5rem;
   letter-spacing: 2px;
   font-family: 'Roboto Slab';
+  white-space: pre-wrap;
 `;
 
 CardCode.displayName = 'CardCode';

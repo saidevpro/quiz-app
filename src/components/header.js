@@ -25,8 +25,8 @@ const LogoComponent = styled.div`
   }
 `;
 
-const Header = ({ style }) => (
-  <HeaderComponent style={style}>
+const Header = ({ className }) => (
+  <HeaderComponent className={className}>
     <LogoComponent>
       <img src={Logo} alt="application logo" />
     </LogoComponent>
@@ -34,7 +34,7 @@ const Header = ({ style }) => (
 );
 
 Header.propTypes = {
-  style: PropTypes.object
+  className: PropTypes.string
 };
 
 export default Header;

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './input.scss';
 
-const Textarea = props => {
-  return <textarea {...props}>{props.children}</textarea>;
+const Textarea = ({ children, ...props }) => {
+  return <textarea {...props}>{children}</textarea>;
 };
 
 Textarea.propTypes = {
@@ -12,7 +12,8 @@ Textarea.propTypes = {
   style: PropTypes.object,
   onChange: PropTypes.func,
   type: PropTypes.string,
-  option: PropTypes.object
+  option: PropTypes.object,
+  children: PropTypes.any
 };
 
 export default Textarea;

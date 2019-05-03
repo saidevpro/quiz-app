@@ -1,10 +1,33 @@
 import React from 'react';
 import FormCreateQuiz from '../containers/formcreatequiz';
+import styled from 'styled-components';
 import Header from '../components/header';
 import Container from '../components/container-responsive';
 import Space from '../components/space';
 import Loader from '../components/loader';
 import Modal from '../components/modal';
+
+const Error = styled.p`
+  color: #9e0606;
+`;
+
+const Center = styled.div`
+  text-align: center;
+`;
+
+const FetchLoader = props => (
+  <Center>
+    <Loader />
+    <p>Please wait for a moment.</p>
+  </Center>
+);
+
+const Done = props => (
+  <Center>
+    Quiz was created successfully. <br />
+    <a href="quiz/525">Click here</a> to see the quiz.
+  </Center>
+);
 
 export default class CreateQuizPage extends React.Component {
   constructor(props) {
@@ -63,38 +86,12 @@ export default class CreateQuizPage extends React.Component {
   render() {
     const { openModal, fetching, hasError } = this.state;
 
-    let ModalContent;
-
-    if (fetching) {
-      ModalContent = (
-        <div style={{ textAlign: 'center', maxWidth: '400px' }}>
-          <Loader />
-          <p>Please wait for a moment.</p>
-        </div>
-      );
-    } else if (hasError) {
-      ModalContent = (
-        <div style={{ textAlign: 'center', maxWidth: '400px' }}>
-          <p className="error">Sorry! something is wrong.</p>
-        </div>
-      );
-    } else {
-      ModalContent = (
-        <div style={{ textAlign: 'center', maxWidth: '400px' }}>
-          <p>
-            Quiz was created successfully. <br />
-            <a href="quiz/525">Click here</a> to see the quiz.
-          </p>
-        </div>
-      );
-    }
-
     return (
       <React.Fragment>
         <Header />
         <Space size={7} />
         <Modal isOpen={openModal} onClose={this.handleModalClose}>
-          {ModalContent}
+          {fetching ? <FetchLoader /> : hasError ? <Error children="Sorry! something goes wrong" /> : <Done />}
         </Modal>
         <main style={{ marginBottom: '30px' }}>
           <Container xl={5} lg={7} md={10} xs={12}>

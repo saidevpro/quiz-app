@@ -2,16 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const StyledTabs = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  padding: 0 10px;
-  border-bottom: 1px solid #aaaaaa;
-  background-color: #ffffff;
-`;
-
-function Tabs({ children, onChange, defaultActive, style }) {
+const TabsS = ({ children, onChange, defaultActive, style, className }) => {
   const [activeIndex, setActiveIndex] = useState(defaultActive || 0);
 
   function handleTabClick(event) {
@@ -22,7 +13,7 @@ function Tabs({ children, onChange, defaultActive, style }) {
   }
 
   return (
-    <StyledTabs style={style}>
+    <div className={className}>
       {React.Children.map(children, (tab, index) => {
         return React.cloneElement(tab, {
           onClick: handleTabClick,
@@ -30,15 +21,25 @@ function Tabs({ children, onChange, defaultActive, style }) {
           index
         });
       })}
-    </StyledTabs>
+    </div>
   );
-}
+};
 
-Tabs.propTypes = {
+TabsS.propTypes = {
   children: PropTypes.node.isRequired,
   onChange: PropTypes.func,
   defaultActive: PropTypes.number,
-  style: PropTypes.object
+  style: PropTypes.object,
+  className: PropTypes.string
 };
+
+const Tabs = styled(TabsS)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 0 10px;
+  border-bottom: 1px solid #aaaaaa;
+  background-color: #ffffff;
+`;
 
 export default Tabs;
