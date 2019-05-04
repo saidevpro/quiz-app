@@ -14,7 +14,7 @@ module.exports = {
       {
         question: 'required|string',
         categories: 'required|array',
-        response: 'required',
+        correct_response: 'required',
         responses: 'required|array'
       }
     );

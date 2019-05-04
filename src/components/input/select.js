@@ -2,11 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './input.scss';
 
-const Select = ({ options, ...props }) => {
+const Select = ({ options, defaultOption, ...props }) => {
   return (
     <select {...props}>
-      {Object.keys(options).forEach(key => (
-        <option value={key}>{options[key]}</option>
+      {defaultOption ? (
+        <option value="" disabled>
+          {defaultOption}
+        </option>
+      ) : null}
+      {Object.keys(options).map(key => (
+        <option value={key} key={key}>
+          {options[key]}
+        </option>
       ))}
     </select>
   );

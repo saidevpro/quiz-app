@@ -1,10 +1,10 @@
 // API ROUTES
-var express = require('express');
-var Quiz = require('../../models/quiz');
-var _ = require('lodash');
-var RequestValidator = require('../../utils/request-validator');
+const express = require('express');
+const _ = require('lodash');
+const Quiz = require('../../models/quiz');
+const RequestValidator = require('../../utils/request-validator');
 
-var Router = express.Router();
+const Router = express.Router();
 
 // Middleware check data
 Router.use(/^\/quiz\/?(.*)\/?(?=\/|$)/i, (req, res, next) => {
@@ -24,7 +24,7 @@ Router.post('/quizzes', (req, res, next) => {
   const newQuiz = new Quiz({
     question: req.body.question,
     category: [...req.body.categories],
-    response_index: req.body.response,
+    correct_response: req.body.response,
     responses: [...req.body.responses]
   });
 
@@ -92,7 +92,7 @@ Router.put('/quiz/:id', (req, res) => {
     {
       question: req.body.question,
       category: [...req.body.categories],
-      response_index: req.body.response,
+      correct_response: req.body.response,
       responses: [...req.body.responses]
     },
     {},

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Button from '../components/button';
 import Input from '../components/input/input';
 import Textarea from '../components/input/textarea';
+import Select from '../components/input/select';
 import Label from '../components/label';
 import FormGroup from '../components/formgroup';
 import { MIN_RESPONSE } from '../constants/app.config';
@@ -19,93 +20,65 @@ const LinkRemove = styled.button`
   cursor: pointer;
 `;
 
-function createRandomIndex() {
-  return (
-    Math.random()
-      .toString(36)
-      .substring(2, 15) +
-    Math.random()
-      .toString(36)
-      .substring(2, 15)
-  );
-}
-
 class FormCreateQuiz extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      responses: _.fill(Array(MIN_RESPONSE), 1).map(_v => createRandomIndex()),
-      inputs: {}
+      languages: ['html', 'css', 'javascript', 'php'],
+      categories: [],
+      question: '',
+      description: '',
+      responses: Array(MIN_RESPONSE).fill(''),
+      correct_response: ''
     };
 
     this.addResponse = this.addResponse.bind(this);
     this.removeResponse = this.removeResponse.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleInputEmbedChange = this.handleInputEmbedChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   addResponse() {
     this.setState(state => ({
-      responses: state.responses.concat(createRandomIndex())
+      responses: state.responses.concat([''])
     }));
   }
 
   removeResponse(event) {
     event.preventDefault();
-    const index = event.target.dataset.id;
-    const { name } = event.target;
+    const index = Number(event.target.dataset.id);
 
     this.setState(state => {
-      if (state.inputs[name]) {
-        const elements = state.inputs[name];
-        _.unset(elements, `response_${index}`);
+      const { responses } = state;
+      const isCorrectResponse = responses[index] === state.correct_response;
 
-        return {
-          responses: state.responses.filter(value => value !== index),
-          inputs: {
-            ...state.inputs,
-            [name]: {
-              ...elements
-            }
-          }
-        };
-      }
+      delete responses[index];
+
       return {
-        responses: state.responses.filter(value => value !== index)
+        responses,
+        correct_response: !isCorrectResponse ? state.correct_response : ''
       };
     });
   }
 
   handleInputChange(event) {
-    const input = event.target;
+    const { value, name, type, checked } = event.target;
+    const index = event.target.dataset.id;
 
-    this.setState(state => ({
-      inputs: {
-        ...state.inputs,
-        [input.name]: input.value
-      }
-    }));
-  }
-
-  handleInputEmbedChange(event) {
-    const { inputs } = this.state;
-    const { type, name, value, checked } = event.target;
-    const dataId = event.target.dataset.id;
-
-    if (type === 'checkbox' && !checked && inputs[name]) {
+    if (Array.isArray(this.state[name])) {
       this.setState(state => {
-        const elements = state.inputs[name];
-        _.unset(elements, dataId);
+        const input = state[name];
 
+        if (type === 'checkbox' && checked) {
+          input.push(value);
+        } else if (type === 'checkbox' && !checked) {
+          _.pull(input, value);
+        } else {
+          input[index] = value;
+        }
         return {
-          inputs: {
-            ...state.inputs,
-            [name]: {
-              ...elements
-            }
-          }
+          [name]: input
         };
       });
 
@@ -113,27 +86,35 @@ class FormCreateQuiz extends React.Component {
     }
 
     this.setState(state => ({
-      inputs: {
-        ...state.inputs,
-        [name]: {
-          ...state.inputs[name],
-          [dataId]: value
-        }
-      }
+      [name]: value
     }));
   }
 
   handleSubmit(event) {
     event.preventDefault();
 
-    const { inputs } = this.state;
+    const { categories, question, description, responses, correct_response } = this.state;
     const { onSubmit } = this.props;
 
-    onSubmit(inputs);
+    onSubmit({
+      categories,
+      question,
+      description,
+      responses,
+      correct_response
+    });
   }
 
   render() {
-    const { responses } = this.state;
+    const { languages, categories, responses, question, description, correct_response } = this.state;
+
+    const correct_response_options = {};
+    responses.forEach(response => {
+      if (response) {
+        correct_response_options[response] = response;
+      }
+    });
+
     return (
       <form action="" ref={this.form}>
         <FormGroup>
@@ -144,55 +125,25 @@ class FormCreateQuiz extends React.Component {
           >
             Categories
           </Label>
-          <Label className="label-checkbox">
-            <Input
-              type="checkbox"
-              className="input-checkbox"
-              name="categories"
-              onChange={this.handleInputEmbedChange}
-              dataId="category1"
-              value="html"
-            />
-            HTML
-          </Label>
-          <Label className="label-checkbox">
-            <Input
-              type="checkbox"
-              className="input-checkbox"
-              name="categories"
-              onChange={this.handleInputEmbedChange}
-              dataId="category2"
-              value="php"
-            />
-            PHP
-          </Label>
-          <Label className="label-checkbox">
-            <Input
-              type="checkbox"
-              className="input-checkbox"
-              name="categories"
-              onChange={this.handleInputEmbedChange}
-              dataId="category3"
-              value="css"
-            />
-            CSS
-          </Label>
-          <Label className="label-checkbox">
-            <Input
-              type="checkbox"
-              className="input-checkbox"
-              name="categories"
-              onChange={this.handleInputEmbedChange}
-              dataId="category4"
-              value="javascript"
-            />
-            JAVASCRIPT
-          </Label>
+          {languages.map((language, index) => (
+            <Label className="label-checkbox" key={language}>
+              <Input
+                type="checkbox"
+                value={language}
+                name="categories"
+                checked={categories.includes(language)}
+                onChange={this.handleInputChange}
+                className="input-checkbox"
+              />
+              {language.toLowerCase()}
+            </Label>
+          ))}
         </FormGroup>
         <FormGroup margin={20}>
           <Label>Question ?</Label>
           <Textarea
             name="question"
+            value={question}
             style={{
               width: '100%'
             }}
@@ -205,6 +156,7 @@ class FormCreateQuiz extends React.Component {
           <Label>Description</Label>
           <Textarea
             name="description"
+            value={description}
             style={{
               width: '100%'
             }}
@@ -214,33 +166,43 @@ class FormCreateQuiz extends React.Component {
           />
         </FormGroup>
         <FormGroup margin={20}>
-          <Label>Response</Label>
-          {responses.map(value => (
+          <Label>Responses</Label>
+          {responses.map((value, key) => (
             <div
               style={{
                 position: 'relative',
                 marginBottom: '20px'
               }}
-              key={value}
+              key={key}
             >
               <Input
                 type="text"
                 name="responses"
+                value={value}
                 className="input-text"
                 placeholder="e.g. the function will return"
                 style={{
                   width: '100%'
                 }}
-                onChange={this.handleInputEmbedChange}
-                dataId={`response_${value}`}
+                onChange={this.handleInputChange}
+                dataId={key}
               />
-              {responses.length > MIN_RESPONSE && (
-                <LinkRemove onClick={this.removeResponse} data-id={value} name="responses">
-                  remove
-                </LinkRemove>
-              )}
+              <LinkRemove onClick={this.removeResponse} data-id={key} name="responses">
+                remove
+              </LinkRemove>
             </div>
           ))}
+        </FormGroup>
+        <FormGroup margin={20}>
+          <Label>Correct Response</Label>
+          <Select
+            name="correct_response"
+            value={correct_response}
+            options={correct_response_options}
+            style={{ width: '100%' }}
+            defaultOption="Choose the correct response"
+            onChange={this.handleInputChange}
+          />
         </FormGroup>
         <FormGroup margin={40}>
           <div
@@ -261,6 +223,20 @@ class FormCreateQuiz extends React.Component {
     );
   }
 }
+
+FormCreateQuiz.getDerivedStateFromProps = (props, state) => {
+  if (props.isReset) {
+    return {
+      categories: [],
+      question: '',
+      description: '',
+      responses: Array(MIN_RESPONSE).fill(''),
+      correct_response: ''
+    };
+  }
+
+  return null;
+};
 
 FormCreateQuiz.propTypes = {
   onSubmit: PropTypes.func

@@ -107,7 +107,11 @@ class QuizzesPage extends React.Component {
                   >
                     delete
                   </a>
-                  <a href="update/quiz/122" className="button button-primary button-sm" style={{ float: 'right' }}>
+                  <a
+                    href="update/quiz/122"
+                    className="button button-primary button-sm"
+                    style={{ float: 'right' }}
+                  >
                     update
                   </a>
                 </p>
@@ -115,9 +119,12 @@ class QuizzesPage extends React.Component {
             </section>
           </Container>
           {deleteId && (
-            <Modal isOpen={true} onClose={this.handleCloseModal}>
+            <Modal isOpen onClose={this.handleCloseModal}>
               <div>
-                <p>Vous êtes sur le point de supprimer le quiz. Êtes-vous sûre de vouloir effectuer cette action ?</p>
+                <p>
+                  Vous êtes sur le point de supprimer le quiz. Êtes-vous sûre de vouloir effectuer cette
+                  action ?
+                </p>
                 <div style={{ textAlign: 'right' }}>
                   <Button
                     className="button button-primary button-sm"
@@ -127,7 +134,11 @@ class QuizzesPage extends React.Component {
                   >
                     Annuler
                   </Button>
-                  <Button className="button button-danger button-sm" type="button" onClick={this.handleDeleteQuiz}>
+                  <Button
+                    className="button button-danger button-sm"
+                    type="button"
+                    onClick={this.handleDeleteQuiz}
+                  >
                     confirmer
                   </Button>
                 </div>

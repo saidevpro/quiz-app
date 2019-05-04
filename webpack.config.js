@@ -1,4 +1,4 @@
-var path = require('path');
+const path = require('path');
 
 module.exports = {
   mode: 'development',
@@ -47,6 +47,7 @@ module.exports = {
     contentBase: path.join(__dirname, 'public'),
     publicPath: '/assets/',
     port: 8000,
-    hot: true
+    hot: true,
+    historyApiFallback: true
   }
 };

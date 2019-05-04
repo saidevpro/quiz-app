@@ -1,11 +1,16 @@
 import React from 'react';
 import './app.scss';
-// import CreateQuizPage from './pages/createquizpage';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import CreateQuizPage from './pages/createquizpage';
 import QuizzesPage from './pages/quizzes';
 
+React;
+
 export default () => (
-  <React.Fragment>
-    <QuizzesPage />
-    {/* <CreateQuizPage /> */}
-  </React.Fragment>
+  <Router>
+    <Switch>
+      <Route path="/create/quiz" component={CreateQuizPage} />
+      <Route path="/quizzes" component={QuizzesPage} />
+    </Switch>
+  </Router>
 );

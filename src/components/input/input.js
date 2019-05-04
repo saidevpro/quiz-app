@@ -2,7 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './input.scss';
 
-const Input = ({ type, name, id, className, style, onClick, onChange, placeholder, dataId, value }) => (
+const Input = ({
+  type,
+  name,
+  id,
+  className,
+  style,
+  onClick,
+  onChange,
+  placeholder,
+  dataId,
+  value,
+  checked
+}) => (
   <input
     type={type}
     name={name}
@@ -15,6 +27,7 @@ const Input = ({ type, name, id, className, style, onClick, onChange, placeholde
     data-id={dataId}
     value={value}
     autoComplete="off"
+    checked={checked}
   />
 );
 
@@ -27,7 +40,8 @@ Input.propTypes = {
   type: PropTypes.string,
   id: PropTypes.string,
   placeholder: PropTypes.string,
-  value: PropTypes.string
+  value: PropTypes.string,
+  checked: PropTypes.bool
 };
 
 export default Input;

@@ -1,8 +1,4 @@
-var quizApiRoutes = require('./quiz_routes');
-var categoryApiRoutes = require('./category_routes'); 
+const quizApiRoutes = require('./quiz_routes');
+const categoryApiRoutes = require('./category_routes');
 
-
-module.exports = [
-    quizApiRoutes,
-    categoryApiRoutes,
-];  
+module.exports = [quizApiRoutes, categoryApiRoutes];
