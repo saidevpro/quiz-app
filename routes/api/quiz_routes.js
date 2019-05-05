@@ -20,12 +20,13 @@ Router.use(/^\/quiz\/?(.*)\/?(?=\/|$)/i, (req, res, next) => {
 });
 
 // Create Ressource
-Router.post('/quizzes', (req, res, next) => {
+Router.post('/quiz', (req, res, next) => {
   const newQuiz = new Quiz({
+    categories: [...req.body.categories],
     question: req.body.question,
-    category: [...req.body.categories],
-    correct_response: req.body.response,
-    responses: [...req.body.responses]
+    description: req.body.description,
+    responses: [...req.body.responses],
+    correct_response: req.body.response
   });
 
   newQuiz.save(error => {

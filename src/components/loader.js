@@ -1,19 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
+const CONTAINER_MAX_SIZE = 64;
+const CHILDREN_MAX_SIZE = 51;
+const CHILDREN_BORDER_MAX_SIZE = 6;
 
 const StyledLoader = styled.div`
   display: inline-block;
   position: relative;
-  width: 64px;
-  height: 64px;
+  width: ${props => CONTAINER_MAX_SIZE * props.size + 'px'};
+  height: ${props => CONTAINER_MAX_SIZE * props.size + 'px'};
   & div {
     box-sizing: border-box;
     display: block;
     position: absolute;
-    width: 51px;
-    height: 51px;
-    margin: 6px;
-    border: 6px solid #fff;
+    width: ${props => CHILDREN_MAX_SIZE * props.size + 'px'};
+    height: ${props => CHILDREN_MAX_SIZE * props.size + 'px'};
+    margin: ${props => CHILDREN_BORDER_MAX_SIZE * props.size + 'px'};
+    border: ${props => CHILDREN_BORDER_MAX_SIZE * props.size + 'px'} solid #fff;
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     border-color: #053344 transparent transparent transparent;
@@ -46,5 +51,13 @@ const Loader = props => (
     <div />
   </StyledLoader>
 );
+
+Loader.defaultProps = {
+  size: 1
+};
+
+Loader.propTypes = {
+  size: PropTypes.number
+};
 
 export default Loader;

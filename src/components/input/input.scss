@@ -13,7 +13,8 @@ textarea {
 
 input:not([type='radio']),
 input:not([type='checkbox']),
-textarea {
+textarea,
+select {
     padding: 0.5rem;
     border: 1px solid #aaaaaa;
     border-radius: 3px;

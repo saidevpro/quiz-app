@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
 const QuizSchema = new mongoose.Schema({
+  categories: Array,
   question: String,
-  category: Array,
-  response_index: Number,
-  responses: Array
+  description: String,
+  responses: Array,
+  correct_response: Number
 });
 
 module.exports = mongoose.model('quiz', QuizSchema);

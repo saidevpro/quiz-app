@@ -1,6 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
+
+const scalable = keyframes`
+  0% {
+    transform: scale(0.5)
+  } 100% {
+    transform: scale(1)
+  }
+`;
 
 const Error = styled.div`
   position: relative;
@@ -10,6 +18,8 @@ const Error = styled.div`
   border-radius: 5px;
   font-size: 0.9rem;
   background-color: #f4a4a4;
+  animation: ${scalable} 0.1s ease-in;
+  transform-origin: top right;
 `;
 
 const Closer = styled.div`
@@ -18,12 +28,15 @@ const Closer = styled.div`
   right: 0.7rem;
   width: 27px;
   height: 27px;
+  transform: scale(0.8);
+  transition: 0.3s all;
   line-height: 27px;
   text-align: center;
   border-radius: 50%;
   cursor: pointer;
   :hover {
     background-color: rgba(0, 0, 0, 0.2);
+    transform: scale(1);
   }
 `;
 

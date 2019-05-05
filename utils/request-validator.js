@@ -2,20 +2,24 @@ const Validator = require('validatorjs');
 
 module.exports = {
   createAndUpdateQuiz(req) {
-    const { question, categories, response, responses } = req.body;
+    const { categories, question, description, responses, correct_response } = req.body;
+
+    console.log(req.body);
 
     const validation = new Validator(
       {
-        question,
         categories,
-        responses,
-        response
+        question,
+        description,
+        correct_response,
+        responses
       },
       {
-        question: 'required|string',
         categories: 'required|array',
-        correct_response: 'required',
-        responses: 'required|array'
+        question: 'required|string',
+        description: 'required|string',
+        responses: 'required|array',
+        correct_response: 'required'
       }
     );
 

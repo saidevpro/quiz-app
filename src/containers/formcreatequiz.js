@@ -2,13 +2,15 @@ import React from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import Button from '../components/button';
 import Input from '../components/input/input';
 import Textarea from '../components/input/textarea';
 import Select from '../components/input/select';
 import Label from '../components/label';
 import FormGroup from '../components/formgroup';
-import { MIN_RESPONSE } from '../constants/app.config';
+import FetchableData from '../containers/fetchabledata';
+import { MIN_RESPONSE, API_URL } from '../constants';
 
 const LinkRemove = styled.button`
   text-decoration: underline;
@@ -20,12 +22,15 @@ const LinkRemove = styled.button`
   cursor: pointer;
 `;
 
+const fetchLanguage = () => {
+  return axios.get(`${API_URL}/categories`);
+};
+
 class FormCreateQuiz extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      languages: ['html', 'css', 'javascript', 'php'],
       categories: [],
       question: '',
       description: '',
@@ -117,28 +122,32 @@ class FormCreateQuiz extends React.Component {
 
     return (
       <form action="" ref={this.form}>
-        <FormGroup>
-          <Label
-            style={{
-              marginBottom: '17px'
-            }}
-          >
-            Categories
-          </Label>
-          {languages.map((language, index) => (
-            <Label className="label-checkbox" key={language}>
-              <Input
-                type="checkbox"
-                value={language}
-                name="categories"
-                checked={categories.includes(language)}
-                onChange={this.handleInputChange}
-                className="input-checkbox"
-              />
-              {language.toLowerCase()}
-            </Label>
-          ))}
-        </FormGroup>
+        <FetchableData asynchFunc={fetchLanguage}>
+          {languages => (
+            <FormGroup>
+              <Label
+                style={{
+                  marginBottom: '17px'
+                }}
+              >
+                Categories
+              </Label>
+              {languages.map((language, index) => (
+                <Label className="label-checkbox" key={language}>
+                  <Input
+                    type="checkbox"
+                    value={language}
+                    name="categories"
+                    checked={categories.includes(language)}
+                    onChange={this.handleInputChange}
+                    className="input-checkbox"
+                  />
+                  {language.toLowerCase()}
+                </Label>
+              ))}
+            </FormGroup>
+          )}
+        </FetchableData>
         <FormGroup margin={20}>
           <Label>Question ?</Label>
           <Textarea
@@ -187,7 +196,7 @@ class FormCreateQuiz extends React.Component {
                 onChange={this.handleInputChange}
                 dataId={key}
               />
-              <LinkRemove onClick={this.removeResponse} data-id={key} name="responses">
+              <LinkRemove onClick={this.removeResponse} data-id={key} name="responses" tabIndex="-1">
                 remove
               </LinkRemove>
             </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Validator from 'validatorjs';
+import axios from 'axios';
 import FormCreateQuiz from '../containers/formcreatequiz';
 import Header from '../components/header';
 import Container from '../components/container-responsive';
@@ -8,10 +9,11 @@ import Space from '../components/space';
 import Loader from '../components/loader';
 import Modal from '../components/modal';
 import ErrorModal from '../components/errormodal';
+import { API_URL } from '../constants';
 
 const ErrorDataValidationCard = styled(ErrorModal)`
   position: fixed;
-  top: 7.5rem;
+  top: 6.5rem;
   right: 1rem;
 `;
 
@@ -76,28 +78,24 @@ export default class CreateQuizPage extends React.Component {
       dataFailsMessages: []
     });
 
-    const FakePromise = new Promise((resolve, reject) => {
-      // reject();
-      setTimeout(() => {
-        resolve();
-      }, 3000);
-    });
+    axios
+      .post(`${API_URL}/quiz`, data)
+      .then(response => {
+        console.log(response);
+        this.setState({
+          fetching: false,
+          hasError: false
+        });
 
-    FakePromise.then(res => {
-      this.setState({
-        fetching: false,
-        hasError: false
-      });
-
-      this.resetForm();
-    });
-
-    FakePromise.catch(_ =>
-      this.setState({
-        fetching: false,
-        hasError: true
+        this.resetForm();
       })
-    );
+      .catch(Error => {
+        console.log(Error);
+        this.setState({
+          fetching: false,
+          hasError: true
+        });
+      });
   }
 
   handleDataValidationFailure(errors_messages) {
