@@ -2,14 +2,13 @@ input,
 select,
 textarea {
     outline: none;
-    font-family: 'Roboto Slab', Arial, Helvetica, sans-serif;
     font-size: 1rem;
     color: inherit;
 }
 
-textarea {
-    resize: none;
-}
+// textarea {
+//     resize: none;
+// }
 
 input:not([type='radio']),
 input:not([type='checkbox']),

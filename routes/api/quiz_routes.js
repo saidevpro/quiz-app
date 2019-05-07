@@ -26,7 +26,7 @@ Router.post('/quiz', (req, res, next) => {
     question: req.body.question,
     description: req.body.description,
     responses: [...req.body.responses],
-    correct_response: req.body.response
+    correct_response: req.body.correct_response
   });
 
   newQuiz.save(error => {
@@ -46,22 +46,48 @@ Router.post('/quiz', (req, res, next) => {
 
 // Get all the quizzes
 Router.get('/quiz', (req, res, next) => {
-  Quiz.find({}, (error, quizzes) => {
+  const contraints = {};
+
+  if (req.query.c) {
+    const categories = req.query.c;
+
+    contraints['categories'] = {
+      $in: Array.isArray(categories) ? categories : [categories]
+    };
+  }
+
+  Quiz.find(contraints, (error, quizzes) => {
     if (error) {
       return res.status(500).send({
         error: true,
         message: 'Sorry! something goes wrong'
       });
     }
-    res.send({
-      data: quizzes
+    res.send(quizzes);
+  })
+    .select({
+      question: 1,
+      responses: 1,
+      categories: 1,
+      description: 1,
+      _id: 1
+    })
+    .sort({
+      _id: -1
     });
-  }).select({
-    question: 1,
-    responses: 1,
-    category: 1,
-    _id: 0
+});
+
+//  Delete a particular quiz
+Router.delete('/quiz', (req, res) => {
+  Quiz.deleteOne({ _id: req.body.id }, error => {
+    if (error) {
+      return res.status(500).send({
+        error: true,
+        message: 'Sorry! something goes wrong'
+      });
+    }
   });
+  return res.status(200).send({ message: 'The item is deleted.' });
 });
 
 //  Get a particular quiz
@@ -75,14 +101,13 @@ Router.get('/quiz/:id', (req, res) => {
       });
     }
 
-    return res.json({
-      data: [quiz]
-    });
+    return res.json(quiz);
   }).select({
     question: 1,
     responses: 1,
-    category: 1,
-    _id: 0
+    categories: 1,
+    description: 1,
+    correct_response: 1
   });
 });
 
@@ -91,10 +116,11 @@ Router.put('/quiz/:id', (req, res) => {
   Quiz.findOneAndUpdate(
     req.params.id,
     {
+      categories: [...req.body.categories],
       question: req.body.question,
-      category: [...req.body.categories],
-      correct_response: req.body.response,
-      responses: [...req.body.responses]
+      description: req.body.description,
+      responses: [...req.body.responses],
+      correct_response: req.body.correct_response
     },
     {},
     function(error, quiz) {
@@ -107,10 +133,7 @@ Router.put('/quiz/:id', (req, res) => {
         return;
       }
 
-      res.send({
-        code: 200,
-        message: 'The quiz is successfully updated!'
-      });
+      res.send(quiz);
     }
   );
 });

@@ -4,8 +4,6 @@ module.exports = {
   createAndUpdateQuiz(req) {
     const { categories, question, description, responses, correct_response } = req.body;
 
-    console.log(req.body);
-
     const validation = new Validator(
       {
         categories,

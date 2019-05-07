@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const TabsS = ({ children, onChange, defaultActive, style, className }) => {
+const TabsS = ({ children, onChange, defaultActive, style, className, onTabClick }) => {
   const [activeIndex, setActiveIndex] = useState(defaultActive || 0);
 
   function handleTabClick(event) {
@@ -10,6 +10,7 @@ const TabsS = ({ children, onChange, defaultActive, style, className }) => {
 
     setActiveIndex(index);
     onChange(event, index);
+    onTabClick(event);
   }
 
   return (
@@ -28,6 +29,7 @@ const TabsS = ({ children, onChange, defaultActive, style, className }) => {
 TabsS.propTypes = {
   children: PropTypes.node.isRequired,
   onChange: PropTypes.func,
+  onTabClick: PropTypes.func,
   defaultActive: PropTypes.number,
   style: PropTypes.object,
   className: PropTypes.string

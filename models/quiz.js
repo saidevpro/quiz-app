@@ -5,7 +5,7 @@ const QuizSchema = new mongoose.Schema({
   question: String,
   description: String,
   responses: Array,
-  correct_response: Number
+  correct_response: String
 });
 
 module.exports = mongoose.model('quiz', QuizSchema);

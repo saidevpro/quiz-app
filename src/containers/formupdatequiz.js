@@ -10,7 +10,8 @@ import Select from '../components/input/select';
 import Label from '../components/label';
 import FormGroup from '../components/formgroup';
 import FetchableData from '../containers/fetchabledata';
-import { MIN_RESPONSE, API_URL } from '../constants';
+import { MIN_RESPONSE, API_URL, API_QUIZ_PATH } from '../constants';
+import { formatUrl } from '../helper';
 
 const LinkRemove = styled.button`
   text-decoration: underline;
@@ -26,7 +27,7 @@ const fetchLanguage = () => {
   return axios.get(`${API_URL}/categories`);
 };
 
-class FormCreateQuiz extends React.Component {
+class FormUpdateQuiz extends React.Component {
   constructor(props) {
     super(props);
 
@@ -42,6 +43,18 @@ class FormCreateQuiz extends React.Component {
     this.removeResponse = this.removeResponse.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    const { quizId } = this.props;
+    const url = formatUrl(API_URL, API_QUIZ_PATH, quizId);
+
+    axios.get(url).then(({ data }) => {
+      // console.log(data);
+      const { categories, question, description, responses, correct_response } = data;
+      this.setState({ categories, question, description, responses, correct_response });
+    });
+    console.log(this.props.quizId);
   }
 
   addResponse() {
@@ -111,7 +124,7 @@ class FormCreateQuiz extends React.Component {
   }
 
   render() {
-    const { languages, categories, responses, question, description, correct_response } = this.state;
+    const { categories, responses, question, description, correct_response } = this.state;
 
     const correct_response_options = {};
     responses.forEach(response => {
@@ -224,7 +237,7 @@ class FormCreateQuiz extends React.Component {
               +1 Response
             </Button>
             <Button className="button button-primary" onClick={this.handleSubmit}>
-              Create the quiz
+              update the quiz
             </Button>
           </div>
         </FormGroup>
@@ -233,7 +246,7 @@ class FormCreateQuiz extends React.Component {
   }
 }
 
-FormCreateQuiz.getDerivedStateFromProps = (props, state) => {
+FormUpdateQuiz.getDerivedStateFromProps = (props, state) => {
   if (props.isReset) {
     return {
       categories: [],
@@ -247,8 +260,8 @@ FormCreateQuiz.getDerivedStateFromProps = (props, state) => {
   return null;
 };
 
-FormCreateQuiz.propTypes = {
+FormUpdateQuiz.propTypes = {
   onSubmit: PropTypes.func
 };
 
-export default FormCreateQuiz;
+export default FormUpdateQuiz;

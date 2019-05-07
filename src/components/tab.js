@@ -6,7 +6,6 @@ const StyledTab = styled.div`
   padding: 0.6em 0;
   margin-bottom: -1px;
   color: #6d6d6d;
-  text-transform: capitalize;
   flex-grow: 1;
   text-align: center;
   cursor: pointer;
@@ -16,8 +15,8 @@ const StyledTab = styled.div`
   }
 `;
 
-const Tab = ({ children, onClick, isActive, index }) => (
-  <StyledTab onClick={onClick} className={isActive ? 'active' : null} data-id={index}>
+const Tab = ({ children, onClick, isActive, index, dataLabel }) => (
+  <StyledTab onClick={onClick} className={isActive ? 'active' : null} data-id={index} data-label={dataLabel}>
     {children}
   </StyledTab>
 );
@@ -26,7 +25,8 @@ Tab.propTypes = {
   children: PropTypes.any,
   onClick: PropTypes.func,
   isActive: PropTypes.bool,
-  index: PropTypes.number
+  index: PropTypes.number,
+  dataLabel: PropTypes.string
 };
 
 export default Tab;

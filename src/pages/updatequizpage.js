@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Validator from 'validatorjs';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
-import FormCreateQuiz from '../containers/formcreatequiz';
+import FormUpdateQuiz from '../containers/formupdatequiz';
 import Header from '../components/header';
 import Container from '../components/container-responsive';
 import Space from '../components/space';
@@ -35,12 +35,12 @@ const FetchLoader = props => (
 
 const Done = props => (
   <Center>
-    Quiz is created successfully. <br />
+    Quiz is updated successfully. <br />
     <NavLink to="/quizzes">Click here</NavLink> to see the quiz.
   </Center>
 );
 
-export default class CreateQuizPage extends React.Component {
+export default class UpdateQuizPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -79,19 +79,18 @@ export default class CreateQuizPage extends React.Component {
       dataFailsMessages: []
     });
 
+    const quizId = this.props.match.params.id;
+
     axios
-      .post(`${API_URL}/quiz`, data)
+      .put(`${API_URL}/quiz/${data}`, data)
       .then(response => {
         console.log(response);
         this.setState({
           fetching: false,
           hasError: false
         });
-
-        this.resetForm();
       })
       .catch(Error => {
-        console.log(Error);
         this.setState({
           fetching: false,
           hasError: true
@@ -138,6 +137,7 @@ export default class CreateQuizPage extends React.Component {
 
   render() {
     const { openModal, fetching, hasError, shouldResetForm, dataFailsMessages } = this.state;
+    const quizId = this.props.match.params.id;
 
     return (
       <React.Fragment>
@@ -164,7 +164,7 @@ export default class CreateQuizPage extends React.Component {
         </ErrorDataValidationCard>
         <main style={{ marginBottom: '30px' }}>
           <Container xl={5} lg={7} md={10} xs={12}>
-            <FormCreateQuiz onSubmit={this.handleFormSubmit} isReset={shouldResetForm} />
+            <FormUpdateQuiz onSubmit={this.handleFormSubmit} isReset={shouldResetForm} quizId={quizId} />
           </Container>
         </main>
       </React.Fragment>
