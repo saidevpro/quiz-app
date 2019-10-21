@@ -2,20 +2,29 @@
 const express = require('express');
 const _ = require('lodash');
 const Quiz = require('../../models/quiz');
-const RequestValidator = require('../../utils/request-validator');
+const validateQuizData = require('../../utils/validation').validateQuizData;
 
 const Router = express.Router();
 
 // Middleware check data
 Router.use(/^\/quiz\/?(.*)\/?(?=\/|$)/i, (req, res, next) => {
   if (req.method === 'POST' || req.method === 'PUT') {
-    RequestValidator.createAndUpdateQuiz(req)
-      .then(_ => next())
-      .catch(error => {
-        next(error);
-      });
-    return;
+    const validator = validateQuizData(req.body);
+
+    if (validator.fails()) {
+      const errorsMessage = Object.values(validator.errors.all());
+      const error = new Error(errorsMessage.join(', '));
+
+      return next(error);
+    }
   }
+
+  if (req.method === 'DELETE' && !req.body.id) {
+    const error = new Error("The item's id should be indicate");
+
+    return next(error);
+  }
+
   next();
 });
 
@@ -24,7 +33,8 @@ Router.post('/quiz', (req, res, next) => {
   const newQuiz = new Quiz({
     categories: [...req.body.categories],
     question: req.body.question,
-    description: req.body.description,
+    body: req.body.body,
+    response_description: req.body.response_description,
     responses: [...req.body.responses],
     correct_response: req.body.correct_response
   });
@@ -69,7 +79,7 @@ Router.get('/quiz', (req, res, next) => {
       question: 1,
       responses: 1,
       categories: 1,
-      description: 1,
+      body: 1,
       _id: 1
     })
     .sort({
@@ -106,7 +116,8 @@ Router.get('/quiz/:id', (req, res) => {
     question: 1,
     responses: 1,
     categories: 1,
-    description: 1,
+    body: 1,
+    response_description: 1,
     correct_response: 1
   });
 });
@@ -114,15 +125,19 @@ Router.get('/quiz/:id', (req, res) => {
 // Update a quiz
 Router.put('/quiz/:id', (req, res) => {
   Quiz.findOneAndUpdate(
-    req.params.id,
+    { _id: req.params.id },
     {
       categories: [...req.body.categories],
       question: req.body.question,
-      description: req.body.description,
+      body: req.body.body,
+      response_description: req.body.response_description,
       responses: [...req.body.responses],
       correct_response: req.body.correct_response
     },
-    {},
+    {
+      upsert: false,
+      multi: false
+    },
     function(error, quiz) {
       if (error) {
         res.status(500).send({

@@ -6,8 +6,11 @@ const Label = styled.label`
   display: block;
   margin-bottom: 6px;
   font-size: 1rem;
+  font-weight: 700;
+  font-size: 0.9rem;
   &.label-checkbox {
     cursor: pointer;
+    font-weight: normal;
   }
 `;
 

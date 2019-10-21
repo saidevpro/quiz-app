@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { API_URL, API_CATEGORIES_PATH, API_QUIZ_PATH } from '../constants';
 
 export const formatUrl = (...parts) => {
@@ -24,4 +25,17 @@ export const fetchQuizUrlFormat = categories => {
   }
 
   return host.concat(params);
+};
+
+export const getValidationErrorMessages = Validator => {
+  if (!(Validator instanceof Object)) return;
+
+  return _.reduce(
+    Validator.errors.all(),
+    (phrases, value, key) => {
+      phrases.push(value[0]);
+      return phrases;
+    },
+    []
+  );
 };

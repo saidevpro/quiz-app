@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Loader from '../components/loader';
 import styled from 'styled-components';
 import Error from '../components/errormodal';
+import ErrorNotice from '../components/errornotice';
 
 const LoaderComponent = styled(Loader)`
   display: block;
@@ -11,7 +12,7 @@ const LoaderComponent = styled(Loader)`
 
 const ErrorModal = styled(Error)`
   position: fixed;
-  top: 6.5rem;
+  top: 4.5rem;
   right: 1rem;
 `;
 
@@ -47,15 +48,21 @@ class FetchableData extends React.Component {
     const { data, error, fetched, openModal } = this.state;
 
     if (error) {
-      return !openModal ? null : (
-        <ErrorModal isOpen={openModal} handleClose={this.handleCloseErrorModal}>
-          <p>Data fetching has failed.</p>
-          Please check that:
-          <ul>
-            <li>Your network is on</li>
-            <li>The api server is on</li>
-          </ul>
-        </ErrorModal>
+      return (
+        <>
+          <ErrorModal isOpen={openModal} onClose={this.handleCloseErrorModal}>
+            <p>Data fetching has failed.</p>
+            Please check that:
+            <ul>
+              <li>Your network is on</li>
+              <li>The api server is on</li>
+            </ul>
+          </ErrorModal>
+          <ErrorNotice>
+            Sorry. Something goes wrong! <br />
+            Data wasn't be fetch.
+          </ErrorNotice>
+        </>
       );
     }
     return fetched ? children(data) : <LoaderComponent size={0.5} />;

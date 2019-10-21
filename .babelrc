@@ -1,0 +1,39 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "10"
+        }
+      }
+    ],
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "@babel/plugin-transform-async-to-generator",
+    "@babel/transform-runtime",
+    [
+      "css-modules-transform",
+      {
+        "extensions": [".css", ".scss", ".less"]
+      }
+    ],
+    [
+      "transform-assets",
+      {
+        "extensions": ["svg", "png", "jpg", "jpeg"],
+        "name": "[name].[ext]?[sha512:hash:base64:7]"
+      }
+    ],
+    [
+      "prismjs",
+      {
+        "languages": ["javascript", "css", "markup", "dart", "php"],
+        "plugins": ["line-numbers"],
+        "theme": "default",
+        "css": true
+      }
+    ]
+  ]
+}

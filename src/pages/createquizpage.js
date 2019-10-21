@@ -1,22 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import Validator from 'validatorjs';
+import _ from 'lodash';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import FormCreateQuiz from '../containers/formcreatequiz';
-import Header from '../components/header';
+import Header from '../components/header/admin-header';
 import Container from '../components/container-responsive';
 import Space from '../components/space';
 import Loader from '../components/loader';
 import Modal from '../components/modal';
-import ErrorModal from '../components/errormodal';
+import ErrorModal from '../components/floatingerrorcard';
+import { validateQuizData } from '../../utils/validation';
 import { API_URL } from '../constants';
-
-const ErrorDataValidationCard = styled(ErrorModal)`
-  position: fixed;
-  top: 6.5rem;
-  right: 1rem;
-`;
 
 const ErrorParagraph = styled.p`
   color: #9e0606;
@@ -36,7 +31,7 @@ const FetchLoader = props => (
 const Done = props => (
   <Center>
     Quiz is created successfully. <br />
-    <NavLink to="/quizzes">Click here</NavLink> to see the quiz.
+    <NavLink to="/admin/quizzes">Click here</NavLink> to see the quiz.
   </Center>
 );
 
@@ -47,8 +42,8 @@ export default class CreateQuizPage extends React.Component {
     this.state = {
       fetching: false,
       hasError: false,
-      openModal: false,
-      dataFailsMessages: [],
+      isRequesting: false,
+      errors: [],
       shouldResetForm: false
     };
 
@@ -58,7 +53,7 @@ export default class CreateQuizPage extends React.Component {
   }
 
   handleFormSubmit(data) {
-    const validator = this.validateData(data);
+    const validator = validateQuizData(data);
 
     if (validator.fails()) {
       const fails = _.reduce(
@@ -75,14 +70,13 @@ export default class CreateQuizPage extends React.Component {
 
     this.setState({
       fetching: true,
-      openModal: true,
-      dataFailsMessages: []
+      isRequesting: true,
+      errors: []
     });
 
     axios
       .post(`${API_URL}/quiz`, data)
       .then(response => {
-        console.log(response);
         this.setState({
           fetching: false,
           hasError: false
@@ -100,26 +94,11 @@ export default class CreateQuizPage extends React.Component {
   }
 
   handleDataValidationFailure(errors_messages) {
-    this.setState({ dataFailsMessages: errors_messages });
+    this.setState({ errors: errors_messages });
   }
 
   handleDataValidationFailureClose() {
-    this.setState({ dataFailsMessages: [] });
-  }
-
-  validateData(data) {
-    const { question, categories, correct_response, responses, description } = data;
-
-    return new Validator(
-      { question, categories, responses, correct_response, description },
-      {
-        categories: 'required|array',
-        question: 'required|string',
-        description: 'required|string',
-        responses: 'required|array',
-        correct_response: 'required'
-      }
-    );
+    this.setState({ errors: [] });
   }
 
   resetForm() {
@@ -131,19 +110,19 @@ export default class CreateQuizPage extends React.Component {
 
     if (!fetching) {
       this.setState({
-        openModal: false
+        isRequesting: false
       });
     }
   }
 
   render() {
-    const { openModal, fetching, hasError, shouldResetForm, dataFailsMessages } = this.state;
+    const { isRequesting, fetching, hasError, shouldResetForm, errors } = this.state;
 
     return (
       <React.Fragment>
         <Header />
         <Space size={5} />
-        <Modal isOpen={openModal} onClose={this.handleModalClose}>
+        <Modal isOpen={isRequesting} onClose={this.handleModalClose}>
           {fetching ? (
             <FetchLoader />
           ) : hasError ? (
@@ -152,19 +131,16 @@ export default class CreateQuizPage extends React.Component {
             <Done />
           )}
         </Modal>
-        <ErrorDataValidationCard
-          isOpen={!_.isEmpty(dataFailsMessages)}
-          handleClose={this.handleDataValidationFailureClose}
-        >
+        <ErrorModal isOpen={!_.isEmpty(errors)} onClose={this.handleDataValidationFailureClose}>
           <ul style={{ listStyle: 'none' }}>
-            {dataFailsMessages.map((message, key) => (
+            {errors.map((message, key) => (
               <li key={key}>&#10007;&nbsp;{message}</li>
             ))}
           </ul>
-        </ErrorDataValidationCard>
+        </ErrorModal>
         <main style={{ marginBottom: '30px' }}>
-          <Container xl={5} lg={7} md={10} xs={12}>
-            <FormCreateQuiz onSubmit={this.handleFormSubmit} isReset={shouldResetForm} />
+          <Container xl={5} lg={7} md={10} sm={12}>
+            <FormCreateQuiz onSubmit={this.handleFormSubmit} reset={shouldResetForm} />
           </Container>
         </main>
       </React.Fragment>

@@ -28,7 +28,9 @@ function Modal({ onClose, isOpen, children, ...otherProps }) {
   }
   return (
     <ModalStyle {...otherProps} onClick={onClose}>
-      <ModalContentStyle onClick={e => e.stopPropagation()}>{children}</ModalContentStyle>
+      <ModalContentStyle className="modal-content" onClick={e => e.stopPropagation()}>
+        {children}
+      </ModalContentStyle>
     </ModalStyle>
   );
 }

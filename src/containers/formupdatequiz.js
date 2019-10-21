@@ -34,7 +34,8 @@ class FormUpdateQuiz extends React.Component {
     this.state = {
       categories: [],
       question: '',
-      description: '',
+      body: '',
+      response_description: '',
       responses: Array(MIN_RESPONSE).fill(''),
       correct_response: ''
     };
@@ -50,11 +51,23 @@ class FormUpdateQuiz extends React.Component {
     const url = formatUrl(API_URL, API_QUIZ_PATH, quizId);
 
     axios.get(url).then(({ data }) => {
-      // console.log(data);
-      const { categories, question, description, responses, correct_response } = data;
-      this.setState({ categories, question, description, responses, correct_response });
+      const {
+        categories,
+        question,
+        body,
+        response_description,
+        responses,
+        correct_response
+      } = data;
+      this.setState({
+        categories,
+        question,
+        body,
+        response_description,
+        responses,
+        correct_response
+      });
     });
-    console.log(this.props.quizId);
   }
 
   addResponse() {
@@ -111,20 +124,35 @@ class FormUpdateQuiz extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const { categories, question, description, responses, correct_response } = this.state;
+    const {
+      categories,
+      question,
+      body,
+      response_description,
+      responses,
+      correct_response
+    } = this.state;
     const { onSubmit } = this.props;
 
     onSubmit({
       categories,
       question,
-      description,
+      body,
+      response_description,
       responses,
       correct_response
     });
   }
 
   render() {
-    const { categories, responses, question, description, correct_response } = this.state;
+    const {
+      categories,
+      responses,
+      question,
+      body,
+      response_description,
+      correct_response
+    } = this.state;
 
     const correct_response_options = {};
     responses.forEach(response => {
@@ -175,10 +203,23 @@ class FormUpdateQuiz extends React.Component {
           />
         </FormGroup>
         <FormGroup margin={20}>
-          <Label>Description</Label>
+          <Label>Content</Label>
           <Textarea
-            name="description"
-            value={description}
+            name="body"
+            value={body}
+            style={{
+              width: '100%'
+            }}
+            placeholder="e.g. the code does for the first"
+            rows="6"
+            onChange={this.handleInputChange}
+          />
+        </FormGroup>
+        <FormGroup margin={20}>
+          <Label>Response description</Label>
+          <Textarea
+            name="response_description"
+            value={response_description}
             style={{
               width: '100%'
             }}
@@ -209,7 +250,12 @@ class FormUpdateQuiz extends React.Component {
                 onChange={this.handleInputChange}
                 dataId={key}
               />
-              <LinkRemove onClick={this.removeResponse} data-id={key} name="responses" tabIndex="-1">
+              <LinkRemove
+                onClick={this.removeResponse}
+                data-id={key}
+                name="responses"
+                tabIndex="-1"
+              >
                 remove
               </LinkRemove>
             </div>

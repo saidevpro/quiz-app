@@ -12,19 +12,38 @@ import { fetchQuizUrlFormat } from '../helper';
 import { API_URL, API_QUIZ_PATH } from '../constants';
 import { formatUrl } from '../helper';
 
-const Response = styled.p`
+const LoaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 5rem 0;
+`;
+
+const Response = styled.div`
   position: relative;
   margin: 5px 0;
-  padding: 3px 15px;
+  padding: 8px 15px;
   background-color: #f5f2f0;
   border: 1px solid #e0e0e0;
+  padding-left: 2rem;
+  &:after {
+    content: '➤';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.8rem;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    font-size: 0.7rem;
+  }
 `;
 
 const QuizComponent = styled.div`
   margin-bottom: 50px;
 `;
 
-const CTAButtonContainer = styled.div`
+const OptionsContainer = styled.div`
   margin-top: 20px;
 `;
 
@@ -34,7 +53,8 @@ class QuizContainer extends React.Component {
 
     this.state = {
       quizzes: [],
-      deleteId: null
+      deleteId: null,
+      isLoading: true
     };
 
     this.handleDeleteQuiz = this.handleDeleteQuiz.bind(this);
@@ -55,8 +75,10 @@ class QuizContainer extends React.Component {
   fetchData(category) {
     const url = fetchQuizUrlFormat(category);
 
+    this.setState({ isLoading: true });
+
     axios.get(url).then(({ data }) => {
-      this.setState({ quizzes: data });
+      this.setState({ quizzes: data, isLoading: false });
     });
   }
 
@@ -92,7 +114,15 @@ class QuizContainer extends React.Component {
   }
 
   render() {
-    const { deleteId, quizzes } = this.state;
+    const { deleteId, quizzes, isLoading } = this.state;
+
+    if (isLoading) {
+      return (
+        <LoaderContainer>
+          <Loader size={0.5} />
+        </LoaderContainer>
+      );
+    }
 
     if (_.isEmpty(quizzes)) {
       return (
@@ -110,28 +140,28 @@ class QuizContainer extends React.Component {
             <QuizComponent key={key}>
               <h3>{Quiz.question}</h3>
               <CardCode theme="hidden" language={Quiz.categories}>
-                {Quiz.description}
+                {Quiz.body}
               </CardCode>
-              {Quiz.responses.map((response, key) => (
-                <Response key={key}>&rsaquo;&nbsp;&nbsp;{response}</Response>
-              ))}
-              <CTAButtonContainer>
+              {/* {Quiz.responses.map((response, key) => (
+                <Response key={key}>{response}</Response>
+              ))} */}
+              <OptionsContainer>
                 <NavLink
-                  to={`/update/quiz/${Quiz._id}`}
-                  className="button button-primary button-sm"
+                  to={`/admin/update/quiz/${Quiz._id}`}
+                  className="button button-primary"
                   style={{ marginRight: '15px' }}
                 >
                   update
                 </NavLink>
                 <button
                   type="button"
-                  className="button button-danger button-sm"
+                  className="button button-danger"
                   data-id={Quiz._id}
                   onClick={this.handleOpenModal}
                 >
                   delete
                 </button>
-              </CTAButtonContainer>
+              </OptionsContainer>
             </QuizComponent>
           ))}
         </section>
@@ -139,12 +169,12 @@ class QuizContainer extends React.Component {
           <Modal isOpen onClose={this.handleCloseModal}>
             <div>
               <p>
-                Vous êtes sur le point de supprimer le quiz. Êtes-vous sûre de vouloir effectuer cette action
-                ?
+                Vous êtes sur le point de supprimer le quiz. Êtes-vous sûre de vouloir effectuer
+                cette action ?
               </p>
               <div style={{ textAlign: 'right' }}>
                 <Button
-                  className="button button-primary button-sm"
+                  className="button button-primary"
                   type="button"
                   style={{ marginRight: '15px' }}
                   onClick={this.handleCloseModal}
@@ -152,7 +182,7 @@ class QuizContainer extends React.Component {
                   Annuler
                 </Button>
                 <Button
-                  className="button button-danger button-sm"
+                  className="button button-danger"
                   type="button"
                   onClick={this.handleDeleteQuiz}
                 >

@@ -2,10 +2,13 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: './src',
+  entry: {
+    build: './src/index.js',
+    admin: './src/admin.js'
+  },
   output: {
     path: path.resolve(__dirname, 'public/assets'),
-    filename: 'build.js',
+    filename: '[name].js',
     publicPath: '/assets/'
   },
   module: {
@@ -26,17 +29,49 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
+      // {
+      //   test: /\.svg$/,
+      //   loader: 'svg-inline-loader'
+      // }
       {
         test: /\.svg$/,
-        loader: 'svg-inline-loader'
+        use: [
+          'babel-loader',
+          {
+            loader: 'react-svg-loader',
+            options: {
+              svgo: {
+                plugins: [{ removeTitle: false }],
+                floatPrecision: 2
+              }
+            }
+          }
+        ]
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif|jpeg)$/,
         use: [
           {
             loader: 'file-loader',
             options: {
               name: '[hash].[ext]'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[hash].[ext]'
+            }
+          },
+          {
+            loader: 'html-loader',
+            options: {
+              root: path.resolve(__dirname, 'src')
             }
           }
         ]

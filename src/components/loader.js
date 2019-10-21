@@ -18,7 +18,7 @@ const StyledLoader = styled.div`
     width: ${props => CHILDREN_MAX_SIZE * props.size + 'px'};
     height: ${props => CHILDREN_MAX_SIZE * props.size + 'px'};
     margin: ${props => CHILDREN_BORDER_MAX_SIZE * props.size + 'px'};
-    border: ${props => CHILDREN_BORDER_MAX_SIZE * props.size + 'px'} solid #fff;
+    border: ${props => props.borderSize + 'px'} solid #fff;
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     border-color: #053344 transparent transparent transparent;
@@ -53,7 +53,8 @@ const Loader = props => (
 );
 
 Loader.defaultProps = {
-  size: 1
+  size: 1,
+  borderSize: 2
 };
 
 Loader.propTypes = {

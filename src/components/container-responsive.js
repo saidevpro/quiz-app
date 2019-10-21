@@ -4,25 +4,34 @@ import PropTypes from 'prop-types';
 
 const Container = styled.div`
   margin: 0 auto;
-  padding: 0 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
   @media (min-width: 576px) {
-    width: ${props => ((props.xs || 12) / 12) * 100}%;
+    width: ${props => (props.sm / 12) * 100}%;
   }
   @media (min-width: 768px) {
-    width: ${props => ((props.md || 12) / 12) * 100}%;
+    width: ${props => (props.md / 12) * 100}%;
   }
   @media (min-width: 992px) {
-    width: ${props => ((props.lg || 12) / 12) * 100}%;
+    width: ${props => (props.lg / 12) * 100}%;
   }
   @media (min-width: 1200px) {
-    width: ${props => ((props.xl || 12) / 12) * 100}%;
+    width: ${props => (props.xl / 12) * 100}%;
   }
 `;
 
+Container.defaultProps = {
+  sm: 12,
+  md: 12,
+  lg: 12,
+  xl: 12
+};
+
 Container.propTypes = {
-  lg: PropTypes.number,
+  sm: PropTypes.number,
   md: PropTypes.number,
-  xs: PropTypes.number,
+  lg: PropTypes.number,
   xl: PropTypes.number
 };
 

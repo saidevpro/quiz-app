@@ -2,13 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Prism from 'prismjs';
-import 'prismjs/themes/prism.css';
-import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
-import 'prismjs/plugins/line-numbers/prism-line-numbers';
+import 'prismjs/components/prism-sql';
+import 'prismjs/components/prism-python';
+import 'prismjs/themes/prism-tomorrow.css';
 
 const Pre = styled.pre`
-  border: 1px solid #e0e0e0;
-  font-family: 'Fira code';
+  /* border: 1px solid #e0e0e0;
+  font-family: 'Fira Code' !important; */
+`;
+
+const Code = styled.code`
+  font-family: 'Menlo' !important ;
+  font-size: 14px !important;
 `;
 
 class CardCode extends React.Component {
@@ -25,9 +30,13 @@ class CardCode extends React.Component {
 
     return (
       <Pre className="line-numbers">
-        <code className={(Array.isArray(language) ? language : [language]).map(lang => `language-${lang} `)}>
+        <Code
+          className={(Array.isArray(language) ? language : [language])
+            .map(lang => `language-${lang}`)
+            .join(' ')}
+        >
           {children}
-        </code>
+        </Code>
       </Pre>
     );
   }

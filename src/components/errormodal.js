@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 const scalable = keyframes`
   0% {
     transform: scale(0.5)
+  } 50 {
+    transform: scale(1.2)
   } 100% {
     transform: scale(1)
   }
@@ -40,10 +42,10 @@ const Closer = styled.div`
   }
 `;
 
-const ErrorModal = ({ children, isOpen, className, handleClose }) =>
+const ErrorModal = ({ children, isOpen, className, onClose }) =>
   !isOpen ? null : (
     <Error className={className}>
-      <Closer onClick={handleClose}>&#10005;</Closer>
+      <Closer onClick={onClose}>&#10005;</Closer>
       {children}
     </Error>
   );
@@ -51,7 +53,7 @@ const ErrorModal = ({ children, isOpen, className, handleClose }) =>
 ErrorModal.propTypes = {
   isOpen: PropTypes.bool,
   className: PropTypes.string,
-  handleClose: PropTypes.func
+  onClose: PropTypes.func
 };
 
 ErrorModal.displayName = 'ErrorModal';
