@@ -90,7 +90,7 @@ class QuizzesPage extends React.Component {
 
     this.handleSearchChange();
   }
-
+ 
   componentDidUpdate(prevProps) {
     if (prevProps.location.search !== this.props.location.search) {
       this.handleSearchChange();
@@ -157,7 +157,7 @@ class QuizzesPage extends React.Component {
         </FixedTabsContainer>
         <Space size={6} />
         <main style={{ paddingTop: '20px' }}>
-          <Container xl={6} lg={7} md={10} sm={12}>
+          <Container xl={5} lg={7} md={10} sm={12}>
             <QuizContainer category={activeCategory !== 'all' ? activeCategory : ''} />
           </Container>
         </main>

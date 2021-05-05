@@ -11,6 +11,10 @@ import { validateUserRegisterData } from '../../utils/validation';
 import { getValidationErrorMessages, formatUrl } from '../helper';
 import Auth from '../helper/auth';
 
+const CustomLink  = styled(Link)`
+  text-decoration: none;
+`
+
 const RegisterCard = styled.div`
   margin-top: 3rem;
   padding: 1rem;
@@ -83,7 +87,7 @@ class RegisterPage extends React.Component {
           </ul>
         </ErrorModal>
         <Box itemPosition="center" style={{ width: '100vw', height: '100vh' }}>
-          <Container xl={4} lg={5} md={7} sm={8}>
+          <Container xl={3} lg={5} md={7} sm={8}>
             <RegisterCard>
               <LogoCard>
                 <img src={Logo} alt="website logo" />
@@ -92,7 +96,8 @@ class RegisterPage extends React.Component {
               <br />
               <FormRegister onSubmit={this.handleFormSubmit} />
               <br />
-              <Link to="/admin/login">I have an account</Link>
+              <br />
+              <p>You already have an account <CustomLink to="/admin/login">login</CustomLink></p>
             </RegisterCard>
           </Container>
         </Box>

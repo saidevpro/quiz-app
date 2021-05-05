@@ -11,7 +11,7 @@ export default class Auth {
     return axios.post(url, { email, password });
   }
   register(username, email, password, password_confirmation) {
-    const url = formatUrl(API_URL, API_REGISTER_PATH);
+    const url = formatUrl('http://localhost:8000/admin', API_REGISTER_PATH);
     return axios.post(url, { username, email, password, password_confirmation });
   }
   setUserToken(token) {

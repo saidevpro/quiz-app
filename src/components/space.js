@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Axios from 'axios';
 
 const Space = styled.hr`
   border: none;

@@ -59,8 +59,7 @@ class FetchableData extends React.Component {
             </ul>
           </ErrorModal>
           <ErrorNotice>
-            Sorry. Something goes wrong! <br />
-            Data wasn't be fetch.
+            Sorry! Something goes wrong!. Data wasn't be fetch.
           </ErrorNotice>
         </>
       );

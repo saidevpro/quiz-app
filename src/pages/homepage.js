@@ -75,26 +75,28 @@ const HomePage = props => (
     />
     <Space size={3} />
     <Container xl={10} lg={11} md={12} sm={12}>
-      <section>
-        <h3 style={{ fontSize: '1.5rem' }}>Please, choose a programming language</h3>
         <Row>
-          <Fetcher asynchFunc={_ => axios.get(`${API_URL}/categories`)}>
-            {languages =>
-              languages.map(lang => (
-                <Card
-                  key={lang}
-                  label={lang.toLowerCase()}
-                  link={`/game/${lang.toLowerCase()}`}
-                  className={css`
-                    padding-top: 0.7rem;
-                    padding-bottom: 0.7rem;
-                  `}
-                />
-              ))
-            }
-          </Fetcher>
+          <Column flex={12} as="section">
+            <h3 style={{ fontSize: '1.5rem' }}>Please, choose a programming language</h3>
+            <Row>
+              <Fetcher asynchFunc={_ => axios.get(`${API_URL}/categories`)}>
+                {languages =>
+                  languages.map(lang => (
+                    <Card
+                      key={lang}
+                      label={lang.toLowerCase()}
+                      link={`/game/${lang.toLowerCase()}`}
+                      className={css`
+                        padding-top: 0.7rem;
+                        padding-bottom: 0.7rem;
+                      `}
+                    />
+                  ))
+                }
+              </Fetcher>
+            </Row>
+          </Column>
         </Row>
-      </section>
     </Container>
   </>
 );

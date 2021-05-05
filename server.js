@@ -23,7 +23,7 @@ const compiler = webpack(webpackConfig);
 const { APP_PORT, DB_HOST, DB_PORT, DB_DATABASE } = process.env;
 
 // Mongodb connection
-mongoose.connect(`${DB_HOST}:${DB_PORT}/${DB_DATABASE}`, { useNewUrlParser: true });
+mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`, { useNewUrlParser: true });
 
 // Express Server instance
 const app = express();
@@ -38,10 +38,8 @@ app.use(session({ secret: 'quiz' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(cors());
 
 // Create routes
-// app.use('/', HomeRoute);
 app.use(`/${ADMIN_PATH}`, AdminRouter);
 app.use('/api', ApiRouter);
 app.get('*', (req, res) => {
@@ -68,4 +66,4 @@ app.use((req, res, next) => {
   res.status(404).send('Page not found');
 });
 
-app.listen(APP_PORT, _ => console.log(`-- APP IS RUNNING at http://localhost:${APP_PORT} --`));
+app.listen(APP_PORT, _ => console.log(`-- APP IS RUNNING at http://localhost:${APP_PORT} -- ${DB_HOST}:${DB_PORT}/${DB_DATABASE}`));

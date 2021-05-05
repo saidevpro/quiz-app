@@ -10,7 +10,6 @@ const Label = styled.label`
   font-size: 0.9rem;
   &.label-checkbox {
     cursor: pointer;
-    font-weight: normal;
   }
 `;
 

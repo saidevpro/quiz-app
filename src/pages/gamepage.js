@@ -225,7 +225,7 @@ class GamePage extends React.Component {
         <Space size={2.7} />
         {!showResponseToUser ? null : (
           <NoticeContainer>
-            <Container xl={9} lg={11} md={11}>
+            <Container xl={7} lg={11} md={11}>
               <Row justify="center" smJustify="space-between" align="center">
                 <Column style={{ paddingTop: '0.7rem', paddingBottom: '0.7rem' }}>
                   <strong style={{ color: isUserResponseTrue ? '#1d7d09' : '#f13636' }}>
@@ -248,7 +248,7 @@ class GamePage extends React.Component {
           </NoticeContainer>
         )}
         <Space size={5.5} md={4.5} />
-        <Container xl={9} lg={11} md={11}>
+        <Container xl={7} lg={11} md={11}>
           {!hasNecessaryForPage ? (
             <Row justify="center">
               <Loader size={1.5} />

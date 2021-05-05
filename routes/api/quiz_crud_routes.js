@@ -3,7 +3,6 @@ const express = require('express');
 const _ = require('lodash');
 const Quiz = require('../../models/quiz');
 const validateQuizData = require('../../utils/validation').validateQuizData;
-
 const Router = express.Router();
 
 // Middleware check data

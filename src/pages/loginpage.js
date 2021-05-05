@@ -10,6 +10,11 @@ import FloatingErrorCard from '../components/floatingerrorcard';
 import { validateUserLoginData } from '../../utils/validation';
 import { getValidationErrorMessages } from '../helper';
 
+
+const CustomLink  = styled(Link)`
+  text-decoration: none;
+`
+
 const LoginCard = styled.div`
   margin-top: 5rem;
   padding: 1rem;
@@ -60,7 +65,7 @@ class LoginPage extends React.Component {
           </ul>
         </FloatingErrorCard>
         <Box itemPosition="center" style={{ width: '100%', height: '100vh' }}>
-          <Container xl={4} lg={5} md={7} sm={8}>
+          <Container xl={3} lg={5} md={7} sm={8}>
             <LoginCard>
               <LogoCard>
                 <img src={Logo} alt="website logo" />
@@ -69,7 +74,8 @@ class LoginPage extends React.Component {
               <br />
               <FormLogin onSubmit={this.handleFormSubmit} />
               <br />
-              <Link to="/admin/register">I'm new user</Link>
+              <br/>
+              <p>You don't have an account <CustomLink to="/admin/register">create an account</CustomLink></p>
             </LoginCard>
           </Container>
         </Box>

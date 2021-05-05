@@ -149,7 +149,7 @@ export default class UpdateQuizPage extends React.Component {
           </ul>
         </FloatingErrorCard>
         <main style={{ marginBottom: '30px' }}>
-          <Container xl={5} lg={7} md={10} sm={12}>
+          <Container xl={4} lg={7} md={10} sm={12}>
             <FormUpdateQuiz
               onSubmit={this.handleFormSubmit}
               isReset={shouldResetForm}

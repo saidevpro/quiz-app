@@ -85,7 +85,6 @@ export default class CreateQuizPage extends React.Component {
         this.resetForm();
       })
       .catch(Error => {
-        console.log(Error);
         this.setState({
           fetching: false,
           hasError: true
@@ -139,7 +138,7 @@ export default class CreateQuizPage extends React.Component {
           </ul>
         </ErrorModal>
         <main style={{ marginBottom: '30px' }}>
-          <Container xl={5} lg={7} md={10} sm={12}>
+          <Container xl={4} lg={7} md={10} sm={12}>
             <FormCreateQuiz onSubmit={this.handleFormSubmit} reset={shouldResetForm} />
           </Container>
         </main>
